@@ -4,7 +4,6 @@ import           System.IO                      ( IOMode(ReadMode)
                                                 , hClose
                                                 , hGetContents
                                                 , openFile
-                                                , readFile
                                                 , withFile
                                                 )
 main :: IO ()
