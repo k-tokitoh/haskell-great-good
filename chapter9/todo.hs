@@ -3,23 +3,42 @@ import           Data.List                      ( delete )
 import           System.Directory               ( removeFile
                                                 , renameFile
                                                 )
+import           System.Environment             ( getArgs )
 import           System.IO                      ( hClose
                                                 , hPutStr
                                                 , openTempFile
                                                 )
 
+dispatch :: String -> [String] -> IO ()
+dispatch "add"    = add
+dispatch "view"   = view
+dispatch "remove" = remove
+dispatch xs       = error "command is wrong"
+
 main :: IO ()
 main = do
-  contents <- readFile "chapter9/todo.txt"
+  (command : argList) <- getArgs
+  dispatch command argList
+
+
+add :: [String] -> IO ()
+add [fileName, todoItem] = appendFile fileName $ todoItem ++ "\n"
+
+view :: [String] -> IO ()
+view [fileName] = do
+  contents <- readFile fileName
   let tasks         = lines contents
       numberedTasks = zipWith (\n task -> show n ++ " - " ++ task) [0 ..] tasks
   putStrLn "todo tasks are as below:"
-  mapM_ putStrLn numberedTasks
+  putStrLn $ unlines numberedTasks
 
-  putStrLn "which one you want to delete?:"
-  numberString <- getLine
-  let number      = read numberString
+remove :: [String] -> IO ()
+remove [fileName, numberString] = do
+  contents <- readFile fileName
+  let tasks       = lines contents
+      number      = read numberString
       newTasksStr = unlines $ delete (tasks !! number) tasks
+  putStrLn "removing..."
   bracketOnError
     (openTempFile "." "temp")
     (\(tempName, tempHandle) -> do
@@ -30,12 +49,6 @@ main = do
     (\(tempName, tempHandle) -> do
       hPutStr tempHandle newTasksStr
       hClose tempHandle
-      removeFile "chapter9/todo.txt"
-      renameFile tempName "chapter9/todo.txt"
+      removeFile fileName
+      renameFile tempName fileName
     )
-
-  return ()
-
-
-
-
