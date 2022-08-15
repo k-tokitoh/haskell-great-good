@@ -1,3 +1,7 @@
+module Capslocker
+  () where
+
+
 import           Control.Monad
 import           Data.Char                      ( toUpper )
 import           System.IO                      ( IOMode(ReadMode)

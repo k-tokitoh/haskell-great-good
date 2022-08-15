@@ -1,3 +1,5 @@
+module Baby where
+
 import           Control.Arrow                  ( Arrow(arr) )
 import           Control.Monad                  ( when )
 import           Distribution.Simple.Utils      ( xargs )

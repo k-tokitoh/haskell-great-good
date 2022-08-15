@@ -1,3 +1,7 @@
+module Todo
+  ( todo
+  ) where
+
 import           Control.Exception              ( bracketOnError )
 import           Data.List                      ( delete )
 import           System.Directory               ( removeFile
@@ -19,8 +23,8 @@ dispatch command  = doesNotExist command
 doesNotExist :: String -> [String] -> IO ()
 doesNotExist command _ = putStrLn $ "command does not exist: " ++ command
 
-main :: IO ()
-main = do
+todo :: IO ()
+todo = do
   args <- getArgs
   case args of
     []                  -> putStrLn "command needed."
