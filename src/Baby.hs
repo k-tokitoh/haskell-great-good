@@ -1,8 +1,13 @@
 module Baby where
 
-import           Control.Arrow                  ( Arrow(arr) )
-import           Control.Monad                  ( when )
-import           Distribution.Simple.Utils      ( xargs )
+import           Data.Char                      ( chr
+                                                , ord
+                                                )
+import           Data.List                      ( group
+                                                , isPrefixOf
+                                                , sort
+                                                , tails
+                                                )
 
 doubleMe :: Num a => a -> a
 doubleMe x = x + x
@@ -131,10 +136,10 @@ sqrtSums =
   length (takeWhile (< 1000) (scanl1 (\acc x -> acc + sqrt x) [1 ..])) + 1
 
 
-main :: IO ()
-main = do
-  when True $ do
-    putStrLn "hello world."
+-- main :: IO ()
+-- main = do
+--   when True $ do
+--     putStrLn "hello world."
 
 putStr' :: String -> IO ()
 putStr' []       = return ()
@@ -149,8 +154,21 @@ putStrLn' xs = do
   return ()
 
 
+wordNums :: String -> [(String, Int)]
+wordNums = map (\ws -> (head ws, length ws)) . group . sort . words
+
+isIn :: (Eq a) => [a] -> [a] -> Bool
+needle `isIn` haystack = any (needle `isPrefixOf`) (tails haystack)
+
+encode :: Int -> String -> String
+encode offset = map (chr . (+ offset) . ord)
+
+decode :: Int -> String -> String
+decode offset = encode (negate offset)
 
 
+oddSquareSum :: Integer
+oddSquareSum = sum . takeWhile (< 10000) . filter odd $ map (^ 2) [1 ..]
 
 
 

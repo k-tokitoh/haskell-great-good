@@ -2,7 +2,7 @@ module Main
   ( main
   ) where
 
-import           Baby                           ( )
+import           Baby
 import           Capslocker                     ( )
 import           Cointoss                       ( )
 import           RandomGuess                    ( )
