@@ -1,1 +1,1 @@
-# haskell-try
+# haskell-great-good

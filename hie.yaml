@@ -1,13 +1,13 @@
 cradle:
   stack:
     - path: "./src"
-      component: "haskell-try:lib"
+      component: "haskell-great-good:lib"
 
     - path: "./app/Main.hs"
-      component: "haskell-try:exe:haskell-try-exe"
+      component: "haskell-great-good:exe:haskell-great-good-exe"
 
     - path: "./app/Paths_haskell_try.hs"
-      component: "haskell-try:exe:haskell-try-exe"
+      component: "haskell-great-good:exe:haskell-great-good-exe"
 
     - path: "./test"
-      component: "haskell-try:test:haskell-try-test"
+      component: "haskell-great-good:test:haskell-great-good-test"

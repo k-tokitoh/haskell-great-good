@@ -1,4 +1,4 @@
-# Changelog for `haskell-try`
+# Changelog for `haskell-great-good`
 
 All notable changes to this project will be documented in this file.
 
