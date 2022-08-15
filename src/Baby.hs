@@ -1,13 +1,17 @@
 module Baby where
 
 import           Data.Char                      ( chr
+                                                , digitToInt
+                                                , isDigit
                                                 , ord
                                                 )
-import           Data.List                      ( group
+import           Data.List                      ( find
+                                                , group
                                                 , isPrefixOf
                                                 , sort
                                                 , tails
                                                 )
+import qualified Data.Map                      as Map
 
 doubleMe :: Num a => a -> a
 doubleMe x = x + x
@@ -169,6 +173,43 @@ decode offset = encode (negate offset)
 
 oddSquareSum :: Integer
 oddSquareSum = sum . takeWhile (< 10000) . filter odd $ map (^ 2) [1 ..]
+
+digitSum :: Int -> Int
+digitSum n = sum . map digitToInt $ show n
+
+firstTo40 :: Maybe Int
+firstTo40 = find ((== 40) . digitSum) [1 ..]
+
+phoneBook :: [(String, String)]
+phoneBook =
+  [ ("betty"  , "5552938")
+  , ("bonnie" , "4522928")
+  , ("patsy"  , "4932928")
+  , ("lucille", "2052928")
+  , ("wendy"  , "9398282")
+  , ("penny"  , "8532492")
+  , ("wendy"  , "0000000")
+  ]
+
+findKey :: String -> [(String, String)] -> Maybe String
+findKey key = foldr (\(k, v) acc -> if key == k then Just v else acc) Nothing
+
+phoneBook' :: Map.Map String String
+phoneBook' = Map.fromList phoneBook
+
+string2digits :: String -> [Int]
+string2digits = map digitToInt . filter isDigit
+
+intBook :: Map.Map String [Int]
+intBook = Map.map string2digits phoneBook'
+
+multiPhoneBook :: Map.Map String String
+multiPhoneBook = Map.fromListWith add phoneBook
+  where add num1 num2 = num1 ++ ", " ++ num2
+
+multiPhoneBook' :: Map.Map String [String]
+multiPhoneBook' = Map.fromListWith (++) $ map (\(k, v) -> (k, [v])) phoneBook
+
 
 
 
